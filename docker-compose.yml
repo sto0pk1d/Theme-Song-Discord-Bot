@@ -3,6 +3,8 @@ services:
     image: mongo:4.4
     container_name: theme-song-mongo
     restart: unless-stopped
+    ports:
+      - "27017:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD}
