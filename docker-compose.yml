@@ -28,7 +28,6 @@ services:
     depends_on:
       - mongo
       - pot-provider
-          condition: service_healthy
     environment:
       - POT_PROVIDER_URL=http://pot-provider:4416
       - DISCORD_TOKEN=${DISCORD_TOKEN}
