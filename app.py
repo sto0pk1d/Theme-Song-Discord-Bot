@@ -627,10 +627,13 @@ async def play(member: discord.Member, query: str, duration: float):
 # Direct messaging for logging
 # @to_thread
 async def send_message_to_user(message: str, user_id: int=default_log_user):
-	user = bot.get_user(user_id)
-	print(user)
-	if user:
+	try:
+		user = await bot.fetch_user(user_id)
+		print(user)
 		await user.send(message)
+	
+	except Exception as e:
+		print(f'Failed to DM user {user_id}: {e}', flush=True)
 	return
 
 async def change_theme_user(interaction: discord.Interaction, user: typing.Union[discord.User, discord.Member], song: str, theme_song_duration: float=default_theme_song_duration):
