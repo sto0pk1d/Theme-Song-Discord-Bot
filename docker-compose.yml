@@ -15,6 +15,11 @@ services:
     image: brainicism/bgutil-ytdlp-pot-provider:latest
     container_name: pot-provider
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4416/ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 3    
 
   theme-song-bot:
     build: .
@@ -23,6 +28,7 @@ services:
     depends_on:
       - mongo
       - pot-provider
+          condition: service_healthy
     environment:
       - POT_PROVIDER_URL=http://pot-provider:4416
       - DISCORD_TOKEN=${DISCORD_TOKEN}
