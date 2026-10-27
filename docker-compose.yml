@@ -1,12 +1,26 @@
 version: '3.8'
 
 services:
+  mongo:
+    image: mongo:7
+    container_name: theme-song-mongo
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD}
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
   pot-provider:
     image: brainicism/bgutil-ytdlp-pot-provider:latest
     container_name: pot-provider
     restart: unless-stopped
-    ports:
-      - "4416:4416"
     healthcheck:
       test: ["CMD", "wget", "-q", "--spider", "http://localhost:4416/ping"]
       interval: 30s
@@ -18,12 +32,15 @@ services:
     container_name: theme-song-bot
     restart: unless-stopped
     depends_on:
+      mongo:
+        condition: service_healthy
       pot-provider:
         condition: service_healthy
     environment:
       - POT_PROVIDER_URL=http://pot-provider:4416
       - DISCORD_TOKEN=${DISCORD_TOKEN}
-      - MONGO_URI=${MONGO_URI}
-    # Pass any additional env vars from .env file
-    env_file:
-      - .env
+      - MONGODB_URI=mongodb://mongo:27017/
+      - MONGODB_PASSWORD=${MONGODB_PASSWORD}
+
+volumes:
+  mongo_data:
