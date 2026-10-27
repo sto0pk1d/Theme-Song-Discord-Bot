@@ -169,7 +169,7 @@ MAX_CACHE_FILES = 50
 os.makedirs(CACHE_DIR, exist_ok=True)
 
 # Default user used for confirming bot login via DM
-default_log_user = 318887467707138051
+default_log_user = 216029688081022976
 
 # -------------------------------------------
 # Bot setup
