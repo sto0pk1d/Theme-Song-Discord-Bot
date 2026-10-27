@@ -19,10 +19,8 @@ services:
     container_name: theme-song-bot
     restart: unless-stopped
     depends_on:
-      mongo:
-        condition: service_healthy
-      pot-provider:
-        condition: service_healthy
+      - mongo
+      - pot-provider
     environment:
       - POT_PROVIDER_URL=http://pot-provider:4416
       - DISCORD_TOKEN=${DISCORD_TOKEN}
