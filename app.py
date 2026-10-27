@@ -179,6 +179,7 @@ default_log_user = 318887467707138051
 intents = discord.Intents.default()
 intents.members = True
 intents.voice_states = True
+intents.message_content = True
 
 commands_synced = False
 
