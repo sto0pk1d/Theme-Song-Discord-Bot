@@ -35,6 +35,8 @@ services:
       - DISCORD_TOKEN=${DISCORD_TOKEN}
       - MONGODB_URI=mongodb://mongo:27017/
       - MONGODB_PASSWORD=${MONGODB_PASSWORD}
-
+    env_file:
+      - .env
+      
 volumes:
   mongo_data:
