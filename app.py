@@ -734,6 +734,8 @@ async def change_outro_user(interaction: discord.Interaction, user: typing.Union
 @bot.event
 async def on_ready():
     print(f'Logged in as {bot.user}')
+    cmds = bot.tree.get_commands()
+    print(f'Commands in tree: {len(cmds)}: {[c.name for c in cmds]}', flush=True)
     guild = discord.Object(id=692431236223860836)
     synced = await bot.tree.sync(guild=guild)
     print(f'Synced {len(synced)} commands: {[c.name for c in synced]}', flush=True)
